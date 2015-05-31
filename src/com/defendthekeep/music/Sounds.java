@@ -3,100 +3,84 @@ package com.defendthekeep.music;
 import java.lang.Thread;
 import java.io.File;
 import java.io.IOException;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class Sounds implements Runnable
-{
-    private static final int EXTERNAL_BUFFER_SIZE = 128000;
-
-    private Thread t;
-    public volatile boolean playing = true;
-    private String audioFile;
-    private SourceDataLine line;
-    private AudioInputStream audioInputStream;
-
-    public Sounds(String arg)
-    {
-        audioFile = arg;
-        t = new Thread(this, arg + "_thread");
-        t.start();
-    }
-
+public class Sounds implements LineListener {
+	
+    @SuppressWarnings("unused")
+	private String audioFileName;
+    private Clip audioClip;
+    private AudioFormat audioFormat;
+    private AudioInputStream audioStream;
+    private File audioFile;
+    private DataLine.Info info;
  
-    public void run()
-    {
+    public volatile boolean playing = true;
 
-       try
-       {
-           audioInputStream = AudioSystem.getAudioInputStream(new File(audioFile));
-       }
-       catch (Exception e)
-       {
-           /*
-         In case of an exception, we dump the exception
-         including the stack trace to the console output.
-         Then, we exit the program.
-            */
-           e.printStackTrace();
-           System.exit(1);
-       }
+    /**
+     * Constructor of the Sounds object
+     * @param audioFileName
+     */
+    public Sounds(String audioFileName) {
+        this.audioFileName = audioFileName;
+        play(audioFileName);
+        }
+ 
+    /**
+     * Plays the music, need the Filename to work (Caution Loop!)
+     * The methode update is the Listener for this
+     * @param audioFileName
+     */
+    public void play (String audioFileName) {
+    	audioFile = new File(audioFileName);
+     
+        try {
+        	audioStream = AudioSystem.getAudioInputStream(audioFile);     
+            audioFormat = audioStream.getFormat();    
+            info = new DataLine.Info(Clip.class, audioFormat);     
+            audioClip = (Clip) AudioSystem.getLine(info);    
+            audioClip.addLineListener(this);   
+            audioClip.open(audioStream);   
+            audioClip.loop(111);
+        }
+                           
 
-       AudioFormat audioFormat = audioInputStream.getFormat();
-       System.out.println(audioFormat);
-       
-       DataLine.Info   info = new DataLine.Info(SourceDataLine.class,
-               audioFormat);
-       
-        while(playing)
-        {
-
-            try
-            {
-                line = (SourceDataLine) AudioSystem.getLine(info);
-
-                /*
-              The line is there, but it is not yet ready to
-              receive audio data. We have to open the line.
-                 */
-                line.open(audioFormat);
+            catch (UnsupportedAudioFileException ex) {
+                System.out.println("The specified audio file is not supported.");
+                ex.printStackTrace();
+            } 
+            catch (LineUnavailableException ex) {
+                System.out.println("Audio line for playing back is unavailable.");
+                ex.printStackTrace();
+            } 
+            catch (IOException ex) {
+                System.out.println("Error playing the audio file.");
+                ex.printStackTrace();
             }
-            catch (LineUnavailableException e)
-            {
-                e.printStackTrace();
-                System.exit(1);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-                System.exit(1);
-            }
-
-            line.start();
-            
-            int nBytesRead = 1;
-            byte[]  abData = new byte[EXTERNAL_BUFFER_SIZE];
-            while ((nBytesRead != -1) && (playing))
-            {
-                try
-                {
-                    nBytesRead = audioInputStream.read(abData, 0, abData.length);
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                if (nBytesRead >= 0)
-                {
-                    @SuppressWarnings("unused")
-					int nBytesWritten = line.write(abData, 0, nBytesRead);
-                }
-            }
-        }  
+        }
+    
+    public void stopMusic(){
+    	audioClip.close();
     }
+       
+	@Override
+	public void update(LineEvent event) {
+		LineEvent.Type type = event.getType();
+        
+        if (type == LineEvent.Type.START) {
+            System.out.println("Playback started.");             
+        } 
+        else if (type == LineEvent.Type.STOP) {
+            
+            System.out.println("Playback completed.");       
+        }		
+	}
 }
