@@ -14,21 +14,20 @@ public class MainWindow implements KeyListener{
 
 	private final int FRAME_WIDTH = 1040;
 	private final int FRAME_HEIGHT = 804;
+	
+	private String music = "src/Music.wav";
+	
 	public JFrame jFrame = new JFrame();
 	public ControlPanel cp;
 	public MenuPanel mp;
 	public GamePanel gp;
-	public String music = "src/Music.wav";
-	
-	public int contentWidth = jFrame.getContentPane().getWidth();
-	public int contentHeight = jFrame.getContentPane().getHeight();
+	public int score = 0;
 	
 	public MainWindow(){
 		new Sounds(music);
 	}
 	
 	public void createFrame(){
-		
 		
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screenSize = tk.getScreenSize();
@@ -58,21 +57,22 @@ public class MainWindow implements KeyListener{
 		int key = e.getKeyCode();
 
 		if (key == KeyEvent.VK_UP) {
-			// UpMove = true;
-
-			if (gp.imageY > 25 && gp.imageY + 25 > 25) {
-				gp.imageY -= 25;
+			if (gp.archerImageY > 25 && gp.archerImageY + 25 > 25) {
+				gp.archerImageY -= 25;
 				gp.repaint();
-				System.out.println("ddfdfdf");
+				System.out.println("archer up");
 			}
 		}
-		else if (key == KeyEvent.VK_DOWN) {
-			// DownMove = true;
-
-			if (gp.imageY < 730 && gp.imageY + 25 < 730) {
-				gp.imageY += 25;
+		if (key == KeyEvent.VK_DOWN) {
+			if (gp.archerImageY < 730 && gp.archerImageY + 25 < 730) {
+				gp.archerImageY += 25;
 				gp.repaint();
+				System.out.println("archer down");
 			}
+		}
+		else if(key == KeyEvent.VK_RIGHT){
+			gp.counter.setText("Score : " + Integer.toString(score++));
+			gp.repaint();
 		}
 	}
 
@@ -80,18 +80,13 @@ public class MainWindow implements KeyListener{
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
 
-		// Check if the left or right arrows were released so that we
-		// will stop moving the rockets
 		if (key == KeyEvent.VK_UP) {
-			//UpMove = false;
 		}
 		if (key == KeyEvent.VK_DOWN) {
-			//DownMove = false;
 		}		
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub		
+	public void keyTyped(KeyEvent e) {	
 	}
 }

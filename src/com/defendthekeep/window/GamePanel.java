@@ -1,68 +1,65 @@
 package com.defendthekeep.window;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import com.defendthekeep.icontoimage.ImageConverter;
+
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel {
 
 	private static final long serialVersionUID = -8590849790367994162L;
 	
-	private BufferedImage image;
-	private BufferedImage image2;
-	private BufferedImage image3;
-	public JPanel pane;
-
-	Image archerImage = ImageConverter.getConvertedImage("Archer.png");
-	public int imageX = 886;
-	public int imageY = 360;
-
-	Image knightImage = ImageConverter.getConvertedImage("Knight.png");
-	public int imageX2 = 400;
-	public int imageY2 = 400;
+	//Images
+	private BufferedImage gameBgrImage;
+	private BufferedImage archerImage;
+	private BufferedImage knightImage;
+	
+	//Start positions
+	public int archerImageX = 886;
+	public int archerImageY = 360;
+	public int knightImageX = 400;
+	public int knightImageY = 400;
+	
+	public JLabel counter;
+	private String counterText;
+	public int Score = 0;
 
 	public GamePanel() {
-		Thread t = new Thread();
-		t.start();
 	}
 
 	public JPanel createGamePanel() {
-
-		try {
-			image = ImageIO.read(new File("src/GameBackground.png"));
-			image2 = ImageIO.read(new File("src/Archer.png"));
-			image3 = ImageIO.read(new File("src/Knight.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		setSize(1040, 804);
-		setFocusable(true);
-		requestFocus();
-		setFocusTraversalKeysEnabled(false);		
-		
+		counter = new JLabel();
+		counterText = "Score : " + Integer.toString(Score);
+		counter.setText(counterText);
+		counter.setBounds(400, 11, 360, 60);
+		counter.setFont(counter.getFont().deriveFont(55f));
+		add(counter);
+
+		try {
+			gameBgrImage = ImageIO.read(new File("src/GameBackground.png"));
+			archerImage = ImageIO.read(new File("src/Archer.png"));
+			knightImage = ImageIO.read(new File("src/Knight.png"));
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}			
 		return this;
 	}
 	
+	@Override
 	public void paintComponent(Graphics g) {
 
 			super.paintComponent(g); // This places an on the screen at the desired position. so that you can now put what you want.
 
-			g.drawImage(image, 0, 0, null); // This places an on the screen at the desired position.
-			g.drawImage(image2, imageX, imageY, null); // This places an on the screen at the desired position.
-			g.drawImage(image3, imageX2, imageY2, null); // This places an on the screen at the desired position.
+			g.drawImage(gameBgrImage, 0, 0, null); // This places the background at position 0,0.
+			g.drawImage(archerImage, archerImageX, archerImageY, null); // This places the archers position.
+			g.drawImage(knightImage, knightImageX, knightImageY, null); // This places the knights position.
 	}
-	
-	@Override
-	public void run() {		
-		while(true){
-			repaint();
-		}				
-	}	
 }
