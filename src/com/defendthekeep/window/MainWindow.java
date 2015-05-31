@@ -67,14 +67,14 @@ public class MainWindow {
 	public void mainWindowupdate(){
 		if(KeyCheckPlayer.keysCheck(KeyEvent.VK_UP)){
 			if (gp.archerImageY > 25 && gp.archerImageY + 25 > 25) {
-				gp.archerImageY -= 15;
+				gp.archerImageY -= 5;
 				gp.repaint();;
 				System.out.println("archer up");
 			}
 		}
 		if(KeyCheckPlayer.keysCheck(KeyEvent.VK_DOWN)){
 			if (gp.archerImageY < 730 && gp.archerImageY + 25 < 730) {
-				gp.archerImageY += 15;
+				gp.archerImageY += 5;
 				gp.gpUpdate();;
 				System.out.println("archer down");
 			}

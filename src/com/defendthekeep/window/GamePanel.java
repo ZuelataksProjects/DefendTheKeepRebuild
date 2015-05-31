@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
@@ -30,14 +32,17 @@ public class GamePanel extends JPanel {
 	public JLabel counter;
 	private String counterText;
 	public int Score = 0;
+	public double lastTime;
 	
 	Enemy[] enemy;
+	List<Enemy> enemyList = new ArrayList<Enemy>(); 
 
 	public GamePanel() {
 	}
 
 	public JPanel createGamePanel() {
 		
+		lastTime = System.currentTimeMillis();
 		setSize(1040, 804);
 		counter = new JLabel();
 		counterText = "Score : " + Integer.toString(Score);
@@ -59,16 +64,19 @@ public class GamePanel extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//enemy = new Enemy[10];
-		//enemy[0] = new Enemy(knightImage,knightImageX,knightImageY);
-		//enemy[1] = new Enemy(knightImage,knightImageX,knightImageY);
+		//enemy = new Enemy[2];
+		//enemy[0] = new Enemy(knightImage,knightImageX);
+		//enemy[1] = new Enemy(knightImage,knightImageX);
 		return this;
 	}
 	
 	
 	public void gpUpdate(){
 		repaint();
+		
 	}
+	
+	
 	
 	@Override
 	public void paintComponent(Graphics g) {
@@ -77,10 +85,30 @@ public class GamePanel extends JPanel {
 
 			g.drawImage(gameBgrImage, 0, 0, null); // This places the background at position 0,0.
 			g.drawImage(archerImage, archerImageX, archerImageY, null); // This places the archers position.
-			g.drawImage(knightImage, knightImageX, knightImageY, null); // This places the knights position.
+			//g.drawImage(knightImage, knightImageX, knightImageY, null); // This places the knights position.
+			//g.drawImage(enemy[0].knightImage, enemy[0].knightImageX, enemy[0].knightImageY, null);
+			//g.drawImage(enemy[1].knightImage, enemy[1].knightImageX, enemy[1].knightImageY, null);
+			//knightImageX += 10;
+			if (System.currentTimeMillis() - lastTime > 2000) {
+				enemyList.add(new Enemy(knightImage,knightImageX));
+				//enemy[0] = new Enemy(knightImage,knightImageX);
+				lastTime = System.currentTimeMillis();
+				}
 			
-			//for (int i = 0; i<enemy.length; i++){
-			//	g.drawImage(enemy[i].knightImage, enemy[i].knightImageX, enemy[i].knightImageY, null); // This places the knights position.
-	    }
+				for (Enemy e : enemyList) {
+					e.knightImageX += 1;
+					g.drawImage(e.knightImage, e.knightImageX, e.knightImageY, null);
+				}
+
+			
+//			if( System.currentTimeMillis() - lastTime > 2000){					
+//				System.out.println("test");
+//			
+//				g.drawImage(enemy[0].knightImage, enemy[0].knightImageX, enemy[0].knightImageY, null); // This places the knights position.
+//				lastTime = System.currentTimeMillis();
+//			
+//			}
+	   
+	}
 }
 
