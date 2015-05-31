@@ -30,6 +30,8 @@ public class GamePanel extends JPanel {
 	public JLabel counter;
 	private String counterText;
 	public int Score = 0;
+	
+	Enemy[] enemy;
 
 	public GamePanel() {
 	}
@@ -43,7 +45,10 @@ public class GamePanel extends JPanel {
 		counter.setBounds(400, 11, 360, 60);
 		counter.setFont(counter.getFont().deriveFont(55f));
 		add(counter);
-		new Enemy(knightImageY);
+		
+
+		//add(en);
+		
 
 		try {
 			gameBgrImage = ImageIO.read(new File("src/GameBackground.png"));
@@ -53,9 +58,13 @@ public class GamePanel extends JPanel {
 		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}			
+		}
+		//enemy = new Enemy[10];
+		//enemy[0] = new Enemy(knightImage,knightImageX,knightImageY);
+		//enemy[1] = new Enemy(knightImage,knightImageX,knightImageY);
 		return this;
 	}
+	
 	
 	public void gpUpdate(){
 		repaint();
@@ -69,5 +78,9 @@ public class GamePanel extends JPanel {
 			g.drawImage(gameBgrImage, 0, 0, null); // This places the background at position 0,0.
 			g.drawImage(archerImage, archerImageX, archerImageY, null); // This places the archers position.
 			g.drawImage(knightImage, knightImageX, knightImageY, null); // This places the knights position.
-	}
+			
+			//for (int i = 0; i<enemy.length; i++){
+			//	g.drawImage(enemy[i].knightImage, enemy[i].knightImageX, enemy[i].knightImageY, null); // This places the knights position.
+	    }
 }
+

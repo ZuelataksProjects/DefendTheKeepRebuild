@@ -4,14 +4,12 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import javax.swing.JFrame;
 
 import com.defendthekeep.keychecker.KeyCheckPlayer;
 import com.defendthekeep.music.Sounds;
 
-public class MainWindow implements KeyListener{
+public class MainWindow {
 
 	private final int FRAME_WIDTH = 1040;
 	private final int FRAME_HEIGHT = 804;
@@ -53,7 +51,7 @@ public class MainWindow implements KeyListener{
 		
 		while(true){
 			gp.gpUpdate();
-			update();
+			mainWindowupdate();
 			
 			try {
 				Thread.sleep(15);
@@ -66,15 +64,15 @@ public class MainWindow implements KeyListener{
 
 	}
 	
-	public void update(){
-		if(KeyCheckPlayer.keysCheck(KeyEvent.VK_W)){
+	public void mainWindowupdate(){
+		if(KeyCheckPlayer.keysCheck(KeyEvent.VK_UP)){
 			if (gp.archerImageY > 25 && gp.archerImageY + 25 > 25) {
 				gp.archerImageY -= 15;
 				gp.repaint();;
 				System.out.println("archer up");
 			}
 		}
-		if(KeyCheckPlayer.keysCheck(KeyEvent.VK_S)){
+		if(KeyCheckPlayer.keysCheck(KeyEvent.VK_DOWN)){
 			if (gp.archerImageY < 730 && gp.archerImageY + 25 < 730) {
 				gp.archerImageY += 15;
 				gp.gpUpdate();;
@@ -87,42 +85,43 @@ public class MainWindow implements KeyListener{
 		}
 		
 	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
-
-		if (key == KeyEvent.VK_A) {
-			if (gp.archerImageY > 25 && gp.archerImageY + 25 > 25) {
-				gp.archerImageY -= 25;
-				gp.gpUpdate();;
-				System.out.println("archer up");
-			}
-		}
-		if (key == KeyEvent.VK_B) {
-			if (gp.archerImageY < 730 && gp.archerImageY + 25 < 730) {
-				gp.archerImageY += 25;
-				gp.gpUpdate();;
-				System.out.println("archer down");
-			}
-		}
-		else if(key == KeyEvent.VK_C){
-			gp.counter.setText("Score : " + Integer.toString(score++));
-			gp.gpUpdate();
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		int key = e.getKeyCode();
-
-		if (key == KeyEvent.VK_UP) {
-		}
-		if (key == KeyEvent.VK_DOWN) {
-		}		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {	
-	}
 }
+
+//	@Override
+//	public void keyPressed(KeyEvent e) {
+//		int key = e.getKeyCode();
+//
+//		if (key == KeyEvent.VK_A) {
+//			if (gp.archerImageY > 25 && gp.archerImageY + 25 > 25) {
+//				gp.archerImageY -= 25;
+//				gp.gpUpdate();;
+//				System.out.println("archer up");
+//			}
+//		}
+//		if (key == KeyEvent.VK_B) {
+//			if (gp.archerImageY < 730 && gp.archerImageY + 25 < 730) {
+//				gp.archerImageY += 25;
+//				gp.gpUpdate();;
+//				System.out.println("archer down");
+//			}
+//		}
+//		else if(key == KeyEvent.VK_C){
+//			gp.counter.setText("Score : " + Integer.toString(score++));
+//			gp.gpUpdate();
+//		}
+//	}
+//
+//	@Override
+//	public void keyReleased(KeyEvent e) {
+//		int key = e.getKeyCode();
+//
+//		if (key == KeyEvent.VK_UP) {
+//		}
+//		if (key == KeyEvent.VK_DOWN) {
+//		}		
+//	}
+//
+//	@Override
+//	public void keyTyped(KeyEvent e) {	
+//	}
+//}

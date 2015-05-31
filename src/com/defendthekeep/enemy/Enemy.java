@@ -1,33 +1,47 @@
 package com.defendthekeep.enemy;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import javax.swing.JPanel;
 
-import com.defendthekeep.window.GamePanel;
 
-public class Enemy extends GamePanel implements Runnable {
+public class Enemy extends JPanel implements Runnable {
 	
+	public BufferedImage knightImage;
+	public int knightImageX;
 	public int knightImageY;
 
 	private static final long serialVersionUID = -5644079102702569233L;
 
-	public Enemy(int knightImageY){
+	public Enemy(BufferedImage knightImage,int knightImageX,int knightImageY){
+		setSize(1040, 804);
+		this.knightImage = knightImage;
+		this.knightImageX = knightImageX;
 		this.knightImageY = knightImageY;
+		
+
 		Thread t = new Thread();
 		t.start();
 	}
 	
+	public BufferedImage getKnightImage(){
+		return knightImage;
+	}
+	public int getKnightImageX(){
+		return knightImageX;
+	}
+	public int getKnightImageY(){
+		return knightImageY;
+	}
 	
 	@Override
 	public void run() {
 		while(true){
-			knightImageY = (int)(Math.random() * 700 + 1);
+			knightImageY += 1;
 			repaint();
-		}
-		
+		}	
 	}
-	
-	
-	
+		
 	@Override
 	public void paintComponent(Graphics g) {
 
