@@ -29,6 +29,8 @@ public class MenuPanel {
 		}
 		pane = new JPanel() {
 
+			private static final long serialVersionUID = -4574520763655452619L;
+
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -40,5 +42,4 @@ public class MenuPanel {
 		pane.addMouseListener(new MouseDetectionMenu());
 		return pane;
 	}
-
 }

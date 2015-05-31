@@ -5,7 +5,9 @@ import javax.swing.JLabel;
 
 public class ImageLabel extends JLabel {
 
-	  public ImageLabel(String img) {
+	private static final long serialVersionUID = -3001426493464513168L;
+
+	public ImageLabel(String img) {
 	    this(new ImageIcon(img));
 	  }
 

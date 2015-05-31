@@ -56,7 +56,6 @@ public class MainWindow implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		System.out.println("ddfdfdf");
 
 		if (key == KeyEvent.VK_UP) {
 			// UpMove = true;
@@ -74,7 +73,6 @@ public class MainWindow implements KeyListener{
 				gp.imageY += 25;
 				gp.repaint();
 			}
-
 		}
 	}
 
@@ -89,13 +87,11 @@ public class MainWindow implements KeyListener{
 		}
 		if (key == KeyEvent.VK_DOWN) {
 			//DownMove = false;
-		}
-		
+		}		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 }
