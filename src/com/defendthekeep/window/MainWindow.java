@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
+import com.defendthekeep.keychecker.KeyCheckPlayer;
 import com.defendthekeep.music.Sounds;
 
 public class MainWindow implements KeyListener{
@@ -37,7 +38,7 @@ public class MainWindow implements KeyListener{
 		jFrame.setLocation(screenSize.width / 2 - screenSize.width / 4, (screenSize.height/2) - (FRAME_HEIGHT/2));
 		//jFrame.setResizable(false);
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jFrame.addKeyListener(this);
+		jFrame.addKeyListener(new KeyCheckPlayer());
 		mp = new MenuPanel();
 		cp = new ControlPanel();
 		gp = new GamePanel();
@@ -45,34 +46,69 @@ public class MainWindow implements KeyListener{
 		cont.add(cp.createControlPanel());
 		cont.add(mp.createMenuPanel());
 		cont.add(gp.createGamePanel());
-		
 		jFrame.getContentPane().add(cont);
 		cp.pane.setVisible(false);
 		gp.setVisible(false);		
 		jFrame.setVisible(true);
+		
+		while(true){
+			gp.gpUpdate();
+			update();
+			
+			try {
+				Thread.sleep(15);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+
+	}
+	
+	public void update(){
+		if(KeyCheckPlayer.keysCheck(KeyEvent.VK_W)){
+			if (gp.archerImageY > 25 && gp.archerImageY + 25 > 25) {
+				gp.archerImageY -= 15;
+				gp.repaint();;
+				System.out.println("archer up");
+			}
+		}
+		if(KeyCheckPlayer.keysCheck(KeyEvent.VK_S)){
+			if (gp.archerImageY < 730 && gp.archerImageY + 25 < 730) {
+				gp.archerImageY += 15;
+				gp.gpUpdate();;
+				System.out.println("archer down");
+			}
+		}
+		else if(KeyCheckPlayer.keysCheck(KeyEvent.VK_RIGHT)){
+			gp.counter.setText("Score : " + Integer.toString(score++));
+			gp.gpUpdate();
+		}
+		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 
-		if (key == KeyEvent.VK_UP) {
+		if (key == KeyEvent.VK_A) {
 			if (gp.archerImageY > 25 && gp.archerImageY + 25 > 25) {
 				gp.archerImageY -= 25;
-				gp.repaint();
+				gp.gpUpdate();;
 				System.out.println("archer up");
 			}
 		}
-		if (key == KeyEvent.VK_DOWN) {
+		if (key == KeyEvent.VK_B) {
 			if (gp.archerImageY < 730 && gp.archerImageY + 25 < 730) {
 				gp.archerImageY += 25;
-				gp.repaint();
+				gp.gpUpdate();;
 				System.out.println("archer down");
 			}
 		}
-		else if(key == KeyEvent.VK_RIGHT){
+		else if(key == KeyEvent.VK_C){
 			gp.counter.setText("Score : " + Integer.toString(score++));
-			gp.repaint();
+			gp.gpUpdate();
 		}
 	}
 

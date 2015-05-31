@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.defendthekeep.enemy.Enemy;
+
 public class GamePanel extends JPanel {
 
 	private static final long serialVersionUID = -8590849790367994162L;
@@ -16,13 +18,14 @@ public class GamePanel extends JPanel {
 	//Images
 	private BufferedImage gameBgrImage;
 	private BufferedImage archerImage;
-	private BufferedImage knightImage;
+	public BufferedImage knightImage;
 	
 	//Start positions
 	public int archerImageX = 886;
 	public int archerImageY = 360;
-	public int knightImageX = 400;
-	public int knightImageY = 400;
+	public int knightImageX = 100;
+	//public int knightImageY = 400;
+	public int knightImageY = (int)(Math.random() * 700 + 1);
 	
 	public JLabel counter;
 	private String counterText;
@@ -40,6 +43,7 @@ public class GamePanel extends JPanel {
 		counter.setBounds(400, 11, 360, 60);
 		counter.setFont(counter.getFont().deriveFont(55f));
 		add(counter);
+		new Enemy(knightImageY);
 
 		try {
 			gameBgrImage = ImageIO.read(new File("src/GameBackground.png"));
@@ -51,6 +55,10 @@ public class GamePanel extends JPanel {
 			e.printStackTrace();
 		}			
 		return this;
+	}
+	
+	public void gpUpdate(){
+		repaint();
 	}
 	
 	@Override
