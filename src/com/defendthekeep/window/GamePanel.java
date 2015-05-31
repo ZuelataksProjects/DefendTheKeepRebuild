@@ -51,43 +51,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		setSize(1040, 804);
 		// Main.mw.gp.pane.addKeyListener(this);
 
-		addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent e) {
-				int key = e.getKeyCode();
-				System.out.println("ddfdfdf");
 
-				if (key == KeyEvent.VK_UP) {
-					// UpMove = true;
-
-					if (imageY > 25 && imageY + 25 > 25) {
-						imageY -= 25;
-						pane.repaint();
-						System.out.println("ddfdfdf");
-					}
-				}
-				else if (key == KeyEvent.VK_DOWN) {
-					// DownMove = true;
-
-					if (imageY < 730 && imageY + 25 < 730) {
-						imageY += 25;
-						pane.repaint();
-					}
-
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 
 		setFocusable(true);
 		requestFocus();
