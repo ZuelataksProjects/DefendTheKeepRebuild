@@ -2,22 +2,17 @@ package com.defendthekeep.window;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import com.defendthekeep.icontoimage.ImageConverter;
-import com.defendthekeep.main.Main;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
 
+	private static final long serialVersionUID = -8590849790367994162L;
+	
 	private BufferedImage image;
 	private BufferedImage image2;
 	private BufferedImage image3;
@@ -36,7 +31,6 @@ public class GamePanel extends JPanel implements Runnable {
 		t.start();
 	}
 
-
 	public JPanel createGamePanel() {
 
 		try {
@@ -49,20 +43,12 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		
 		setSize(1040, 804);
-		// Main.mw.gp.pane.addKeyListener(this);
-
-
-
 		setFocusable(true);
 		requestFocus();
-		setFocusTraversalKeysEnabled(false);
+		setFocusTraversalKeysEnabled(false);		
 		
-	
-
 		return this;
 	}
-	
-	
 	
 	public void paintComponent(Graphics g) {
 
@@ -72,14 +58,11 @@ public class GamePanel extends JPanel implements Runnable {
 			g.drawImage(image2, imageX, imageY, null); // This places an on the screen at the desired position.
 			g.drawImage(image3, imageX2, imageY2, null); // This places an on the screen at the desired position.
 	}
-
 	
 	@Override
-	public void run() {
-		
-			while(true){
-				repaint();
-			}				
-	}
-	
+	public void run() {		
+		while(true){
+			repaint();
+		}				
+	}	
 }
