@@ -17,6 +17,9 @@ public class GamePanel extends JPanel {
 
 	private static final long serialVersionUID = -8590849790367994162L;
 	
+	private int enemySpeed = 1;
+	private int spawnTime = 2000; //2sec
+	
 	//Images
 	private BufferedImage gameBgrImage;
 	private BufferedImage archerImage;
@@ -89,14 +92,14 @@ public class GamePanel extends JPanel {
 			//g.drawImage(enemy[0].knightImage, enemy[0].knightImageX, enemy[0].knightImageY, null);
 			//g.drawImage(enemy[1].knightImage, enemy[1].knightImageX, enemy[1].knightImageY, null);
 			//knightImageX += 10;
-			if (System.currentTimeMillis() - lastTime > 2000) {
+			if (System.currentTimeMillis() - lastTime > spawnTime) {
 				enemyList.add(new Enemy(knightImage,knightImageX));
 				//enemy[0] = new Enemy(knightImage,knightImageX);
 				lastTime = System.currentTimeMillis();
 				}
 			
 				for (Enemy e : enemyList) {
-					e.knightImageX += 1;
+					e.knightImageX += enemySpeed;
 					g.drawImage(e.knightImage, e.knightImageX, e.knightImageY, null);
 				}
 
