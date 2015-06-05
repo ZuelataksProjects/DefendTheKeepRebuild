@@ -16,7 +16,7 @@ import com.defendthekeep.main.Main;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel implements KeyListener, Runnable {
 
 	private BufferedImage image;
 	private BufferedImage image2;
@@ -82,4 +82,53 @@ public class GamePanel extends JPanel implements Runnable {
 			}				
 	}
 	
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		int key = e.getKeyCode();
+
+		// Check if the left or right arrows were released so that we
+		// will stop moving the rockets
+		if (key == KeyEvent.VK_UP) {
+			//UpMove = false;
+		}
+		if (key == KeyEvent.VK_DOWN) {
+			//DownMove = false;
+		}
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+		System.out.println("ddfdfdf");
+
+		if (key == KeyEvent.VK_UP) {
+			// UpMove = true;
+
+			if (imageY > 25 && imageY + 25 > 25) {
+				imageY -= 25;
+				repaint();
+				System.out.println("ddfdfdf");
+			}
+		}
+		else if (key == KeyEvent.VK_DOWN) {
+			// DownMove = true;
+
+			if (imageY < 730 && imageY + 25 < 730) {
+				imageY += 25;
+				repaint();
+			}
+
+		}
+
+	}
+
+
 }
