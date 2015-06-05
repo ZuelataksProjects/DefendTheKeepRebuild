@@ -26,15 +26,17 @@ public class ControlPanel{
 			e.printStackTrace();
 		}
 		pane = new JPanel() {
-			
-            @Override
+
+			private static final long serialVersionUID = -6379705495600305969L;
+
+			@Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.drawImage(image, 0, 0, null);
             }
         };
         pane.setSize(1040, 804);
-        pane.addMouseListener(new MouseDetectionControl(pane));
+        pane.addMouseListener(new MouseDetectionControl());
         
        // pane.addMouseListener(new MouseDetection(this));
 		return pane;

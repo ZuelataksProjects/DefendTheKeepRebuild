@@ -4,31 +4,29 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import javax.swing.JFrame;
 
+import com.defendthekeep.keychecker.KeyCheckPlayer;
 import com.defendthekeep.music.Sounds;
 
-public class MainWindow implements KeyListener{
+public class MainWindow {
 
 	private final int FRAME_WIDTH = 1040;
 	private final int FRAME_HEIGHT = 804;
+	
+	private String music = "src/Music.wav";
+	
 	public JFrame jFrame = new JFrame();
 	public ControlPanel cp;
 	public MenuPanel mp;
 	public GamePanel gp;
-	public String music = "src/Music.wav";
-	
-	public int contentWidth = jFrame.getContentPane().getWidth();
-	public int contentHeight = jFrame.getContentPane().getHeight();
+	public int score = 0;
 	
 	public MainWindow(){
 		new Sounds(music);
 	}
 	
 	public void createFrame(){
-		
 		
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screenSize = tk.getScreenSize();
@@ -38,7 +36,7 @@ public class MainWindow implements KeyListener{
 		jFrame.setLocation(screenSize.width / 2 - screenSize.width / 4, (screenSize.height/2) - (FRAME_HEIGHT/2));
 		//jFrame.setResizable(false);
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jFrame.addKeyListener(this);
+		jFrame.addKeyListener(new KeyCheckPlayer());
 		mp = new MenuPanel();
 		cp = new ControlPanel();
 		gp = new GamePanel();
@@ -46,56 +44,84 @@ public class MainWindow implements KeyListener{
 		cont.add(cp.createControlPanel());
 		cont.add(mp.createMenuPanel());
 		cont.add(gp.createGamePanel());
-		
 		jFrame.getContentPane().add(cont);
 		cp.pane.setVisible(false);
 		gp.setVisible(false);		
 		jFrame.setVisible(true);
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
-		System.out.println("ddfdfdf");
-
-		if (key == KeyEvent.VK_UP) {
-			// UpMove = true;
-
-			if (gp.imageY > 25 && gp.imageY + 25 > 25) {
-				gp.imageY -= 25;
-				gp.repaint();
-				System.out.println("ddfdfdf");
-			}
-		}
-		else if (key == KeyEvent.VK_DOWN) {
-			// DownMove = true;
-
-			if (gp.imageY < 730 && gp.imageY + 25 < 730) {
-				gp.imageY += 25;
-				gp.repaint();
-			}
-
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		int key = e.getKeyCode();
-
-		// Check if the left or right arrows were released so that we
-		// will stop moving the rockets
-		if (key == KeyEvent.VK_UP) {
-			//UpMove = false;
-		}
-		if (key == KeyEvent.VK_DOWN) {
-			//DownMove = false;
-		}
 		
-	}
+		while(true){
+			gp.gpUpdate();
+			mainWindowupdate();
+			
+			try {
+				Thread.sleep(15);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+	}
+	
+	public void mainWindowupdate(){
+		if(KeyCheckPlayer.keysCheck(KeyEvent.VK_UP)){
+			if (gp.archerImageY > 25 && gp.archerImageY + 25 > 25) {
+				gp.archerImageY -= 5;
+				gp.repaint();;
+				System.out.println("archer up");
+			}
+		}
+		if(KeyCheckPlayer.keysCheck(KeyEvent.VK_DOWN)){
+			if (gp.archerImageY < 730 && gp.archerImageY + 25 < 730) {
+				gp.archerImageY += 5;
+				gp.gpUpdate();;
+				System.out.println("archer down");
+			}
+		}
+		else if(KeyCheckPlayer.keysCheck(KeyEvent.VK_RIGHT)){
+			gp.counter.setText("Score : " + Integer.toString(score++));
+			gp.gpUpdate();
+		}
 		
 	}
 }
+
+//	@Override
+//	public void keyPressed(KeyEvent e) {
+//		int key = e.getKeyCode();
+//
+//		if (key == KeyEvent.VK_A) {
+//			if (gp.archerImageY > 25 && gp.archerImageY + 25 > 25) {
+//				gp.archerImageY -= 25;
+//				gp.gpUpdate();;
+//				System.out.println("archer up");
+//			}
+//		}
+//		if (key == KeyEvent.VK_B) {
+//			if (gp.archerImageY < 730 && gp.archerImageY + 25 < 730) {
+//				gp.archerImageY += 25;
+//				gp.gpUpdate();;
+//				System.out.println("archer down");
+//			}
+//		}
+//		else if(key == KeyEvent.VK_C){
+//			gp.counter.setText("Score : " + Integer.toString(score++));
+//			gp.gpUpdate();
+//		}
+//	}
+//
+//	@Override
+//	public void keyReleased(KeyEvent e) {
+//		int key = e.getKeyCode();
+//
+//		if (key == KeyEvent.VK_UP) {
+//		}
+//		if (key == KeyEvent.VK_DOWN) {
+//		}		
+//	}
+//
+//	@Override
+//	public void keyTyped(KeyEvent e) {	
+//	}
+//}

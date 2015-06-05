@@ -1,86 +1,128 @@
 package com.defendthekeep.window;
 
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import com.defendthekeep.icontoimage.ImageConverter;
-import com.defendthekeep.main.Main;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+<<<<<<< HEAD
 public class GamePanel extends JPanel implements KeyListener, Runnable {
 
 	private BufferedImage image;
 	private BufferedImage image2;
 	private BufferedImage image3;
 	public JPanel pane;
+=======
+import com.defendthekeep.enemy.Enemy;
+>>>>>>> origin/master
 
-	Image archerImage = ImageConverter.getConvertedImage("Archer.png");
-	public int imageX = 886;
-	public int imageY = 360;
+public class GamePanel extends JPanel {
 
-	Image knightImage = ImageConverter.getConvertedImage("Knight.png");
-	public int imageX2 = 400;
-	public int imageY2 = 400;
+	private static final long serialVersionUID = -8590849790367994162L;
+	
+	private int enemySpeed = 1;
+	private int spawnTime = 2000; //2sec
+	
+	//Images
+	private BufferedImage gameBgrImage;
+	private BufferedImage archerImage;
+	public BufferedImage knightImage;
+	
+	//Start positions
+	public int archerImageX = 886;
+	public int archerImageY = 360;
+	public int knightImageX = 100;
+	//public int knightImageY = 400;
+	public int knightImageY = (int)(Math.random() * 700 + 1);
+	
+	public JLabel counter;
+	private String counterText;
+	public int Score = 0;
+	public double lastTime;
+	
+	Enemy[] enemy;
+	List<Enemy> enemyList = new ArrayList<Enemy>(); 
 
 	public GamePanel() {
-		Thread t = new Thread();
-		t.start();
 	}
 
-
 	public JPanel createGamePanel() {
+		
+		lastTime = System.currentTimeMillis();
+		setSize(1040, 804);
+		counter = new JLabel();
+		counterText = "Score : " + Integer.toString(Score);
+		counter.setText(counterText);
+		counter.setBounds(400, 11, 360, 60);
+		counter.setFont(counter.getFont().deriveFont(55f));
+		add(counter);
+		
+
+		//add(en);
+		
 
 		try {
-			image = ImageIO.read(new File("src/GameBackground.png"));
-			image2 = ImageIO.read(new File("src/Archer.png"));
-			image3 = ImageIO.read(new File("src/Knight.png"));
-		} catch (IOException e) {
+			gameBgrImage = ImageIO.read(new File("src/GameBackground.png"));
+			archerImage = ImageIO.read(new File("src/Archer.png"));
+			knightImage = ImageIO.read(new File("src/Knight.png"));
+		} 
+		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		setSize(1040, 804);
-		// Main.mw.gp.pane.addKeyListener(this);
-
-
-
-		setFocusable(true);
-		requestFocus();
-		setFocusTraversalKeysEnabled(false);
-		
-	
-
+		//enemy = new Enemy[2];
+		//enemy[0] = new Enemy(knightImage,knightImageX);
+		//enemy[1] = new Enemy(knightImage,knightImageX);
 		return this;
 	}
 	
 	
+	public void gpUpdate(){
+		repaint();
+		
+	}
 	
+	
+	
+	@Override
 	public void paintComponent(Graphics g) {
 
 			super.paintComponent(g); // This places an on the screen at the desired position. so that you can now put what you want.
 
-			g.drawImage(image, 0, 0, null); // This places an on the screen at the desired position.
-			g.drawImage(image2, imageX, imageY, null); // This places an on the screen at the desired position.
-			g.drawImage(image3, imageX2, imageY2, null); // This places an on the screen at the desired position.
-	}
+			g.drawImage(gameBgrImage, 0, 0, null); // This places the background at position 0,0.
+			g.drawImage(archerImage, archerImageX, archerImageY, null); // This places the archers position.
+			//g.drawImage(knightImage, knightImageX, knightImageY, null); // This places the knights position.
+			//g.drawImage(enemy[0].knightImage, enemy[0].knightImageX, enemy[0].knightImageY, null);
+			//g.drawImage(enemy[1].knightImage, enemy[1].knightImageX, enemy[1].knightImageY, null);
+			//knightImageX += 10;
+			if (System.currentTimeMillis() - lastTime > spawnTime) {
+				enemyList.add(new Enemy(knightImage,knightImageX));
+				//enemy[0] = new Enemy(knightImage,knightImageX);
+				lastTime = System.currentTimeMillis();
+				}
+			
+				for (Enemy e : enemyList) {
+					e.knightImageX += enemySpeed;
+					g.drawImage(e.knightImage, e.knightImageX, e.knightImageY, null);
+				}
 
-	
-	@Override
-	public void run() {
-		
-			while(true){
-				repaint();
-			}				
+			
+//			if( System.currentTimeMillis() - lastTime > 2000){					
+//				System.out.println("test");
+//			
+//				g.drawImage(enemy[0].knightImage, enemy[0].knightImageX, enemy[0].knightImageY, null); // This places the knights position.
+//				lastTime = System.currentTimeMillis();
+//			
+//			}
+	   
 	}
+<<<<<<< HEAD
 	
 
 	@Override
@@ -131,4 +173,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	}
 
 
+=======
+>>>>>>> origin/master
 }
+
